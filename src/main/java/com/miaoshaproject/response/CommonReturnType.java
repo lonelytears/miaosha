@@ -3,25 +3,15 @@ package com.miaoshaproject.response;
 public class CommonReturnType {
     private String status;
     private Object data;
-    private Integer code;
 
     public static CommonReturnType create(Object result) {
-        return CommonReturnType.create(result, "success", 200);
+        return CommonReturnType.create(result, "success");
     }
-    public static CommonReturnType create(Object result, String status, Integer code) {
+    public static CommonReturnType create(Object result, String status) {
         CommonReturnType type = new CommonReturnType();
         type.setStatus(status);
         type.setData(result);
-        type.setCode(code);
         return type;
-    }
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
     }
 
     public String getStatus() {
