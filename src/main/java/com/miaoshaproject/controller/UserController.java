@@ -19,12 +19,39 @@ import javax.servlet.http.HttpServletRequest;
 import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 @Controller("User")
 @RequestMapping("/user")
 public class UserController extends BaseController{
     @Resource
     private UserService userService;
+
+    @Autowired
+    private HttpServletRequest httpServletRequest;
+
+    @RequestMapping("/getotp")
+    @ResponseBody
+    public CommonReturnType getOpt(@RequestParam(name= "telphone") String telphone)
+    {
+        //生成验证码
+        Random random = new Random();
+        Integer randomInt = random.nextInt(999999);
+
+        randomInt += 10000;
+
+        //返回一个int参数类型的字符串形式
+        String otpCode = String.valueOf(randomInt);
+
+        //将opt的验证码与对应用户的手机号相关联
+        //使用httpsession的方式绑定手机号和otp
+        httpServletRequest.getSession().setAttribute(telphone, otpCode);
+
+        System.out.println(otpCode);
+
+        return CommonReturnType.create(null);
+    }
+
 
     @RequestMapping("/get")
     @ResponseBody
